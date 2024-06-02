@@ -10,13 +10,14 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.openknowledge.workshop.cloud</groupId>
-	<artifactId>lift-and-shift</artifactId>
+	<artifactId>managed-services</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>1 – Lift and Shift</name>
+	<name>03 – PaaS</name>
 	<description>open knowledge Cloud Workshop</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

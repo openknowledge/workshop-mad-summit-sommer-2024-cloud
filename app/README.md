@@ -1,39 +1,41 @@
-# 1 – Lift & Shift
+# 2 – Managed Services
 
-In this exercise we use EC2 to move our backend into the AWS Cloud in a lift & shift manner.
+In this exercise we use AppRunner instead of EC2 to deploy our backend. To do this, a Dockerfile was added that creates a Docker image running our backend.
 
-Note: Make sure you current directory is now `1_lift_and_shift`.
+Note: Make sure you current directory is now `2_managed_services`.
 
-1. Login into the AWS Management Console
+1. Run `aws configure` and use the user information provided to you on paper
 
-    - Go to https://console.aws.amazon.com/console/home
-    - Select IAM User
-    - Use the user information provided to you on paper
+    - Use the region of your user
+    - As default output use the json or yaml (you may also just press enter)
+    - If everything worked, you can now use the AWS CLI from your console
 
-2. Launch an EC2 instance
+2. Create an image registry (known as repository) in AWS using ECR. This allows to actually push our newly build Docker iamge.
 
-    - Name it after your user account (e.g. apollo)
-    - Use the most recent Amazon Linux as OS
-    - Use a t3a.micro instance type
-    - Proceed without key pair (select in the dropdown menu)
-    - Create a new security group that allows SSH and HTTP traffic (or select an existing one if someone else created one already)
-    - Leave everything else as is (but feel free to read all options)
+    - Name it after your user and leave everything else as is.
 
-3. After a while, try to "Connect" to the instance using EC2 Instance Connect
+3. Build a new version of the backend
 
-    - You should see a console where you are logged in as user ec2-user
-    - Install Java 17 using `sudo yum install java-17-amazon-corretto-headless`
-    - Download our app artifact using `wget https://github.com/openknowledge/workshop-cloudland-2023-cloud-muffel/releases/download/test/on-premises-0.0.1-SNAPSHOT.jar`
-    - Start it using `sudo java -jar on-premises-0.0.1-SNAPSHOT.jar --server.port=80`
+    - Run `mvn clean package`
 
-4. Open the public domain of your instance (can be found in the Instance Summary view)
+4. Build Docker image and push to our new ECR repository
 
-    - If everything is fine, the URL `http://$DOMAIN/categories` should return some data
+    - Open the new ECR repository and click on "View push commands"
+    - Follow the instructions there (login, build, tag and push)
 
-5. Connect the frontend to the EC2 instance
+5. Create a new app runner service
 
-    - Adjust the showcase "0 – Lift & Shift" in showcases.ts
-    - Set the base URL using the domain of your EC2 instance (e.g. `http://$DOMAIN`)
-    - Select showcase "0 – Lift & Shift" and check if the app works properly
+    - Go to the AppRunner page and start to create a new service
+    - Select container registry and the latest image in our ECR repository
+    - Set deployment trigger to automatic (we will benefit from this later on)
+    - As service role use the existing "AppRunnerECRAccessRole" role
+    - Name the service after your user name
+    - As Instance Role use the existing "AppRunner" role
+    - Leave everything else as is
+    - Create and deploy the service
 
-6. Terminate the EC2 instance
+6. Connect the frontend to AppRunner service
+
+    - Adjust the showcase "2 – Managed Services" in showcases.ts
+    - Set the base URL using the default domain of your app runner service
+    - Select showcase "2 – Managed Services" and check if the app works properly
