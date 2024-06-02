@@ -1,0 +1,19 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  
+  "features": {
+      "ghcr.io/devcontainers/features/aws-cli:1": {},
+      "ghcr.io/devcontainers/features/node:1": {
+          "version": "20"
+      },
+      "ghcr.io/devcontainers/features/java:1": {
+          "version": "21",
+          "jdkDistro": "amzn",
+          "installMaven": true,
+          "mavenVersion": "3.9.7"           
+      },
+      "ghcr.io/robbert229/devcontainer-features/opentofu:1": {
+          "version": "1.7.1"
+      }
+  }
+}
