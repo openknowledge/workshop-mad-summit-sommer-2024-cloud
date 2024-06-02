@@ -33,9 +33,6 @@ public class Topic {
     @JsonIgnore
     private Category parentCategory;
 
-    private Integer userCount;
-    private Integer postCount;
-
     private String createdBy;
 
     @JsonFormat(
@@ -86,7 +83,7 @@ public class Topic {
     }
 
     public Integer getUserCount() {
-        return userCount;
+        return posts.stream().map(Post::getCreatedBy).collect(Collectors.toSet()).size();
     }
 
     public Integer getPostCount() {
@@ -130,7 +127,7 @@ public class Topic {
     }
 
     public static Builder newTopic(String title) {
-        return new Builder().withUsers(0).withTitle(title);
+        return new Builder().withTitle(title);
     }
 
     public static class Builder {
@@ -169,11 +166,6 @@ public class Topic {
 
         public Builder lastPost(Date date) {
             topic.lastPost = date;
-            return this;
-        }
-
-        public Builder withUsers(Integer userCount) {
-            topic.userCount = userCount;
             return this;
         }
 

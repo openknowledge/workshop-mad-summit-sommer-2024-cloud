@@ -11,6 +11,10 @@ resource "aws_apprunner_service" "app" {
     image_repository {
       image_configuration {
         port = 8080
+
+        runtime_environment_variables = {
+          DYNAMODB_TABLE = aws_dynamodb_table.app.name
+        }
       }
 
       image_repository_type = "ECR"

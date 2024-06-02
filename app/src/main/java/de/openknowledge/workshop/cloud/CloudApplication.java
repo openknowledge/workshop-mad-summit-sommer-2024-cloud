@@ -1,5 +1,8 @@
 package de.openknowledge.workshop.cloud;
 
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import static de.openknowledge.workshop.cloud.models.Category.newCategory;
 import static de.openknowledge.workshop.cloud.models.Post.newPost;
 import static de.openknowledge.workshop.cloud.models.Topic.newTopic;
@@ -14,9 +17,11 @@ import de.openknowledge.workshop.cloud.repositories.CategoryRepository;
 import de.openknowledge.workshop.cloud.repositories.TopicRepository;
 import de.openknowledge.workshop.cloud.repositories.UserRepository;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -54,6 +59,9 @@ class InsertTestData {
         InsertTestData.class.getSimpleName()
     );
 
+    @Value("${dynamodb.table}")
+    private String tableName;
+
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -62,6 +70,9 @@ class InsertTestData {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private DynamoDbClient dynamoDbClient;
 
     @EventListener(ApplicationReadyEvent.class)
     public void insertTestData() {
@@ -133,13 +144,28 @@ class InsertTestData {
             )
         );
 
+        var topicOneId = UUID.fromString("c679a151-a50c-4928-bc9a-df3cf041370a");
+
+        var getCategoryIdKey = Map.of(
+            "pk", AttributeValue.builder().s(format("t->c:%s", topicOneId)).build(),
+            "sk", AttributeValue.builder().s("category_id").build()
+        );
+
+        var getCategoryIdRequest = GetItemRequest.builder().tableName(tableName).consistentRead(true).key(getCategoryIdKey).build();
+
+        var getCategoryIdResponse = dynamoDbClient.getItem(getCategoryIdRequest);
+
+        if (getCategoryIdResponse.hasItem()) {
+            // Test data already inserted
+            return;
+        }
+
         Topic topicOne = newTopic("Die Zukunft von AI")
             .withUUID(UUID.fromString("c679a151-a50c-4928-bc9a-df3cf041370a"))
             .withDescription(
                 "Ist die künstliche Intelligenz der menschlichen überlegen?"
             )
             .inCategory(categoryOne)
-            .withUsers(2)
             .createdBy(userOne.getNickName())
             .createdOn(new Date())
             .build();

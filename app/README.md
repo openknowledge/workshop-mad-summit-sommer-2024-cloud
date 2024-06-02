@@ -1,41 +1,43 @@
-# 2 – Managed Services
+# 3 – PaaS
 
-In this exercise we use AppRunner instead of EC2 to deploy our backend. To do this, a Dockerfile was added that creates a Docker image running our backend.
+In this exercise we want to create a DynamoDB table in and deploy a new version of our backend that that table.
 
-Note: Make sure you current directory is now `2_managed_services`.
+Note: Make sure you current directory is now `3_paas`.
 
-1. Run `aws configure` and use the user information provided to you on paper
+1. In the AWS management console open the DynamoDB page
 
-    - Use the region of your user
-    - As default output use the json or yaml (you may also just press enter)
-    - If everything worked, you can now use the AWS CLI from your console
+    - Create a new DynamoDB table with the default configuration
+    - Use a partition key called "pk" with type string
+    - Use a sort key called "sk" with type string
+    - Name it after your user
+    - Leave everything as is and create the table
 
-2. Create an image registry (known as repository) in AWS using ECR. This allows to actually push our newly build Docker iamge.
-
-    - Name it after your user and leave everything else as is.
-
-3. Build a new version of the backend
+2. Build a new version of the backend
 
     - Run `mvn clean package`
 
-4. Build Docker image and push to our new ECR repository
+3. Build Docker image and push to our new ECR repository (same step as in exercise `03_paas`)
 
     - Open the new ECR repository and click on "View push commands"
     - Follow the instructions there (login, build, tag and push)
 
-5. Create a new app runner service
+4. Change the configuration of your app runner service
 
-    - Go to the AppRunner page and start to create a new service
-    - Select container registry and the latest image in our ECR repository
-    - Set deployment trigger to automatic (we will benefit from this later on)
-    - As service role use the existing "AppRunnerECRAccessRole" role
-    - Name the service after your user name
-    - As Instance Role use the existing "AppRunner" role
-    - Leave everything else as is
-    - Create and deploy the service
+    - Add a new environment variable called `CLOUD_MUFFEL_DYNAMODB_TABLE`
+    - The value of the variable should be the name of your DynamoDB table (see 1.)
+
+5. Wait until the new version of the backend is deployed (or do it manually)
 
 6. Connect the frontend to AppRunner service
 
-    - Adjust the showcase "2 – Managed Services" in showcases.ts
+    - Adjust the showcase "3 – PaaS" in showcases.ts
     - Set the base URL using the default domain of your app runner service
-    - Select showcase "2 – Managed Services" and check if the app works properly
+    - Select showcase "3 – PaaS" and check if the app works properly
+
+7. Check the DynamoDB table in the AWS Management Console
+
+    - You should see some test data that was inserted automatically
+
+8. Use the frontend to add few more topics
+    - Check if you can see them in DynamoDB table
+    - Feel free to change the data of a few items
