@@ -1,43 +1,42 @@
-# 3 – PaaS
+# 4 – Lambda
 
-In this exercise we want to create a DynamoDB table in and deploy a new version of our backend that that table.
+In this exercise we use AWS Lambda to add additional functionality to our application without chaning any existing backend code. We want to sent an "email" whenever a new topic is added to our forum. To do this we use any DynamoDB change in our table as trigger for our Lambda function.
 
-Note: Make sure you current directory is now `3_paas`.
+1. Create a new Lambda function
 
-1. In the AWS management console open the DynamoDB page
-
-    - Create a new DynamoDB table with the default configuration
-    - Use a partition key called "pk" with type string
-    - Use a sort key called "sk" with type string
+    - Go to the Lambda page in the AWS Management console
+    - Click on "Create Function"
+    - Select "Author from Scratch" and use Node.js as runtime
     - Name it after your user
-    - Leave everything as is and create the table
+    - Under permissions choose "Use existing role" and select the role "Lambda"
+    - Create the function
 
-2. Build a new version of the backend
+2. Add DynamoDB changes as trigger for our Lambda function
 
-    - Run `mvn clean package`
+    - Click on "Add Trigger" and select DynamoDB as source
+    - Select the table you created in exercise `3_paas`
+    - Create the trigger
 
-3. Build Docker image and push to our new ECR repository (same step as in exercise `03_paas`)
+3. Change the code
 
-    - Open the new ECR repository and click on "View push commands"
-    - Follow the instructions there (login, build, tag and push)
+    - Use `console.log` to print the event to console
+    - Click on deploy to change the function
 
-4. Change the configuration of your app runner service
+4. Connect the frontend to AppRunner service
 
-    - Add a new environment variable called `CLOUD_MUFFEL_DYNAMODB_TABLE`
-    - The value of the variable should be the name of your DynamoDB table (see 1.)
-
-5. Wait until the new version of the backend is deployed (or do it manually)
-
-6. Connect the frontend to AppRunner service
-
-    - Adjust the showcase "3 – PaaS" in showcases.ts
+    - Adjust the showcase "4 – Lambda" in showcases.ts
     - Set the base URL using the default domain of your app runner service
-    - Select showcase "3 – PaaS" and check if the app works properly
+    - Select showcase "4 – Lambda" and check if the app works properly
 
-7. Check the DynamoDB table in the AWS Management Console
+5. Create a new topic using the frontend
 
-    - You should see some test data that was inserted automatically
+6. Check if your Lambda was invoked
 
-8. Use the frontend to add few more topics
-    - Check if you can see them in DynamoDB table
-    - Feel free to change the data of a few items
+    - On the Lambda management page click on the "Monitor" tab
+    - Click on "View CloudWatch logs"
+    - Try to find the output of you `console.log`
+
+7. Play around a with Lambda and DynamoDB
+
+    - Inspect the event further and try to extract things like the topic name
+    - Print the important information

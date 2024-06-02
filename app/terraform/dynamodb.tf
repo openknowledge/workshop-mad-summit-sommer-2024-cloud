@@ -18,4 +18,8 @@ resource "aws_dynamodb_table" "app" {
     name = "sk"
     type = "S"
   }
+
+  stream_enabled = true
+
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 }
