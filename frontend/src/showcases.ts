@@ -1,18 +1,18 @@
 export const SHOWCASES: ShowcaseConfig = {
   "0 – On-Premises": {
-    baseUrl: "http://localhost:8080",
+    baseUrl: "http://todo.invalid",
   },
   "1 – Lift & Shift": {
-    baseUrl: "https://amazed-antelope.eu-central-1.cloud.workshop.openknowledge.services/",
+    baseUrl: "http://todo.invalid",
   },
   "2 – Managed Services": {
-    baseUrl: "https://q5fxkss4hb.eu-central-1.awsapprunner.com",
+    baseUrl: "http://todo.invalid",
   },
   "3 – PaaS": {
-    baseUrl: "https://nwgrq3mjwf.eu-central-1.awsapprunner.com",
+    baseUrl: "http://todo.invalid",
   },
   "4 – Lambda": {
-    baseUrl: "https://yv2kqianm7.eu-central-1.awsapprunner.com",
+    baseUrl: "http://todo.invalid",
   },
 };
 
