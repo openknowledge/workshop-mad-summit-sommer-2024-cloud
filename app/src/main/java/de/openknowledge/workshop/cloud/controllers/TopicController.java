@@ -135,7 +135,7 @@ public class TopicController {
 
         var topic =
             Topic.newTopic(newTopic.getTitle()).withDescription(newTopic.getDescription()).withUUID(UUID.randomUUID()).createdOn(new Date())
-                .createdBy((userRepository.findAll().stream().findFirst().orElseThrow().getNickName())).withUsers(0)
+                .createdBy((userRepository.findAll().stream().findFirst().orElseThrow().getNickName()))
                 .inCategory(categoryRepository.findById(UUID.fromString(categoryId)).orElseThrow()).build();
 
         repository.addTopic(topic);
