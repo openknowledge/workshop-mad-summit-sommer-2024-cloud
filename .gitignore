@@ -2,7 +2,7 @@
 *.iml
 *.iws
 *.ipr
-/.idea/
+.idea/
 
 # OS
 .DS_Store
