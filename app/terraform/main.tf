@@ -21,6 +21,7 @@ locals {
 }
 
 locals {
+  # release_url = "https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar"
   release_url = "https://github.com/openknowledge/workshop-cloudland-2023-cloud-muffel/releases/download/test/on-premises-0.0.1-SNAPSHOT.jar"
 }
 
