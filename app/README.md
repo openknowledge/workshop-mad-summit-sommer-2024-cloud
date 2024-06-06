@@ -16,7 +16,7 @@ Note: Make sure you are on branch `3_paas`.
 
     - Run `mvn clean package`
 
-3. Build Docker image and push to our new ECR repository (same step as in exercise `03_paas`)
+3. Build Docker image and push to our new ECR repository (same step as in exercise `02_managed_services`)
 
     - Open the new ECR repository and click on "View push commands"
     - Follow the instructions there (login, build, tag and push)
