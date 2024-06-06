@@ -2,7 +2,7 @@
 
 In this exercise we use AppRunner instead of EC2 to deploy our backend. To do this, a Dockerfile was added that creates a Docker image running our backend.
 
-Note: Make sure you current directory is now `2_managed_services`.
+Note: Make sure you are on branch `2_managed_services`.
 
 1. Run `aws configure` and use the user information provided to you on paper
 
