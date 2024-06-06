@@ -1,8 +1,8 @@
-# 1 – Lift & Shift
+# 1a – Lift & Shift
 
 In this exercise we use EC2 to move our backend into the AWS Cloud in a lift & shift manner.
 
-Note: Make sure you current directory is now `1_lift_and_shift`.
+Note: Make sure you are on branch `1b_lift_and_shift`.
 
 1. Login into the AWS Management Console
 
@@ -10,30 +10,55 @@ Note: Make sure you current directory is now `1_lift_and_shift`.
     - Select IAM User
     - Use the user information provided to you on paper
 
-2. Launch an EC2 instance
+2. Create a launch template
+    - Name it after your user account
+    - Use the same settings as used in `1a_lift_and_shift`
+    - That is, `t3a.nano`, `EC2` as security group and instance profile
+    - As user data insert the following snippet:
+    ```sh
+#!/bin/bash
 
-    - Name it after your user account (e.g. apollo)
-    - Use the most recent Amazon Linux as OS
-    - Use a t3a.micro instance type
-    - Proceed without key pair (select in the dropdown menu)
-    - Create a new security group that allows SSH and HTTP traffic (or select an existing one if someone else created one already)
-    - Leave everything else as is (but feel free to read all options)
+echo Update all packages
+yum -y update
 
-3. After a while, try to "Connect" to the instance using EC2 Instance Connect
+echo Install Java 17
+yum -y install java-17-amazon-corretto-headless
 
-    - You should see a console where you are logged in as user ec2-user
-    - Install Java 17 using `sudo yum install java-17-amazon-corretto-headless`
-    - Download our app artifact using `wget https://github.com/openknowledge/workshop-cloudland-2023-cloud-muffel/releases/download/test/on-premises-0.0.1-SNAPSHOT.jar`
-    - Start it using `sudo java -jar on-premises-0.0.1-SNAPSHOT.jar --server.port=80`
+echo Download app
+wget https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar -O app.jar
 
-4. Open the public domain of your instance (can be found in the Instance Summary view)
+echo Start app
+java -jar app.jar --server.port=80
+```    
+    - Leave everything else as is
 
-    - If everything is fine, the URL `http://$DOMAIN/categories` should return some data
+3. Create a target group
+    - Name it after your user account
+    - As health check use `/id`
+
+4. Create a (application) load balancer
+    - Name it after your user account
+    - Use `EC2` as security group
+    - Listen on port 80 using your target group
+
+5. Create an (EC2) autoscaling group
+    - Name it after your user account
+    - Use your launch template
+    - Select all subnets
+    - Attach your load balancer using your target group
+    - Turn on health checks
+    - Use 2 as desired capacity
+
+4. Open the public domain of your loadbalancer (can be found in the Instance Summary view)
+
+    - If everything is fine, the URL `http://$DOMAIN/id` (use HTTP!) should return some data
+    - Reload a few time to check if all instances are hit eventually
 
 5. Connect the frontend to the EC2 instance
 
-    - Adjust the showcase "0 – Lift & Shift" in showcases.ts
+    - Adjust the showcase "1 – Lift & Shift" in showcases.ts
     - Set the base URL using the domain of your EC2 instance (e.g. `http://$DOMAIN`)
-    - Select showcase "0 – Lift & Shift" and check if the app works properly
+    - Select showcase "1 – Lift & Shift" and check if the app works properly
+    - NOTE: This might not work due to TLS in GitHub Codespaces
 
-6. Terminate the EC2 instance
+6. Feel free to delete all resources you've created (in reverse order)
