@@ -2,7 +2,7 @@
 
 In this exercise we want to create a DynamoDB table in and deploy a new version of our backend that that table.
 
-Note: Make sure you current directory is now `3_paas`.
+Note: Make sure you are on branch `3_paas`.
 
 1. In the AWS management console open the DynamoDB page
 
@@ -23,7 +23,7 @@ Note: Make sure you current directory is now `3_paas`.
 
 4. Change the configuration of your app runner service
 
-    - Add a new environment variable called `CLOUD_MUFFEL_DYNAMODB_TABLE`
+    - Add a new environment variable called `DYNAMODB_TABLE`
     - The value of the variable should be the name of your DynamoDB table (see 1.)
 
 5. Wait until the new version of the backend is deployed (or do it manually)
