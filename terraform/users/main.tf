@@ -28,9 +28,9 @@ locals {
     "whale",
     "kangaroo",
     "zebra"
-  ] 
+  ]
 
-  user_count = 5
+  user_count = length(local.all_names)
 
   names = slice(local.all_names, 0, local.user_count)
 
@@ -86,7 +86,7 @@ resource "aws_iam_user_group_membership" "users" {
 }
 
 data "aws_iam_policy" "view_only_access" {
-  name = "ViewOnlyAccess"
+  name = "ReadOnlyAccess"
 }
 
 resource "aws_iam_user_policy_attachment" "view_only_access" {
@@ -115,7 +115,7 @@ resource "aws_iam_user_policy" "users" {
           "cloudfront:*",
           "iam:*",
           "route53:*",
-          "support:*"          
+          "support:*"
         ]
         Resource = "*"
         Condition = {
@@ -262,7 +262,7 @@ resource "aws_iam_user_policy" "users2" {
   })
 }
 
-resource "aws_iam_group_policy" "users3" {  
+resource "aws_iam_group_policy" "users3" {
   group = aws_iam_group.users.name
 
   policy = jsonencode({
@@ -272,41 +272,43 @@ resource "aws_iam_group_policy" "users3" {
       {
         Effect = "Allow"
         Action = [
-            "ec2:AuthorizeSecurityGroupEgress",
-            "ec2:DescribeInstances",
-            "ec2:RevokeSecurityGroupEgress",
-            "iam:AddRoleToInstanceProfile",
-            "iam:CreateInstanceProfile",
-            "iam:DeleteInstanceProfile",
-            "iam:GetInstanceProfile",
-            "iam:PassRole",            
-            "iam:RemoveRoleFromInstanceProfile",
-            "ssm:DescribeInstanceInformation",
-            "ssm:GetConnectionStatus",
-            "ssm:StartSession",
-            "acm:DescribeCertificate",
-            "route53:ListHostedZones",
-            "acm:GetCertificate",
-            "acm:ListTagsForCertificate",
-            "elasticloadbalancing:CreateLoadBalancer",
-            "elasticloadbalancing:CreateTargetGroup",
-            "elasticloadbalancing:ModifyTargetGroupAttributes",
-            "elasticloadbalancing:ModifyLoadBalancerAttributes",
-            "elasticloadbalancing:DescribeTargetGroupAttributes",
-            "elasticloadbalancing:DescribeTags",
-            "elasticloadbalancing:DescribeLoadBalancerAttributes",
-            "ec2:CreateLaunchTemplate",
-            "elasticloadbalancing:DeleteTargetGroup",
-            "autoscaling:CreateAutoScalingGroup",
-            "elasticloadbalancing:DeleteLoadBalancer",
-            "elasticloadbalancing:CreateListener",
-            "route53:ChangeResourceRecordSets",
-            "elasticloadbalancing:DeleteListener",
-            "autoscaling:UpdateAutoScalingGroup",
-            "autoscaling:DeleteAutoScalingGroup",
-            "ec2:DeleteLaunchTemplate",
-            "lambda:GetFunctionCodeSigningConfig",
-            "logs:StartLiveTail"
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:DescribeInstances",
+          "ec2:RevokeSecurityGroupEgress",
+          "iam:AddRoleToInstanceProfile",
+          "iam:CreateInstanceProfile",
+          "iam:DeleteInstanceProfile",
+          "iam:GetInstanceProfile",
+          "iam:PassRole",
+          "iam:RemoveRoleFromInstanceProfile",
+          "ssm:DescribeInstanceInformation",
+          "ssm:GetConnectionStatus",
+          "ssm:StartSession",
+          "acm:DescribeCertificate",
+          "route53:ListHostedZones",
+          "acm:GetCertificate",
+          "acm:ListTagsForCertificate",
+          "elasticloadbalancing:CreateLoadBalancer",
+          "elasticloadbalancing:CreateTargetGroup",
+          "elasticloadbalancing:ModifyTargetGroupAttributes",
+          "elasticloadbalancing:ModifyLoadBalancerAttributes",
+          "elasticloadbalancing:DescribeTargetGroupAttributes",
+          "elasticloadbalancing:DescribeTags",
+          "elasticloadbalancing:DescribeLoadBalancerAttributes",
+          "ec2:CreateLaunchTemplate",
+          "elasticloadbalancing:DeleteTargetGroup",
+          "autoscaling:CreateAutoScalingGroup",
+          "elasticloadbalancing:DeleteLoadBalancer",
+          "elasticloadbalancing:CreateListener",
+          "route53:ChangeResourceRecordSets",
+          "elasticloadbalancing:DeleteListener",
+          "autoscaling:UpdateAutoScalingGroup",
+          "autoscaling:DeleteAutoScalingGroup",
+          "ec2:DeleteLaunchTemplate",
+          "lambda:GetFunctionCodeSigningConfig",
+          "logs:StartLiveTail",
+          "ec2:CreateLaunchTemplateVersion",
+          "autoscaling:StartInstanceRefresh"
         ],
         # Condition = {
         #     StringEquals = {
@@ -317,6 +319,31 @@ resource "aws_iam_group_policy" "users3" {
       },
     ]
   })
+}
+
+resource "aws_security_group" "app" {
+  name = "EC2"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_iam_role" "ec2" {
@@ -340,6 +367,12 @@ resource "aws_iam_role" "ec2" {
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
+}
+
+resource "aws_iam_instance_profile" "app" {
+  name = "EC2"
+
+  role = aws_iam_role.ec2.name
 }
 
 resource "aws_iam_role" "app_runner_ecr_access" {
