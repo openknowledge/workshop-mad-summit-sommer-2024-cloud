@@ -1,6 +1,5 @@
 locals {
-  # release_url = "https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar"
-  release_url = "https://github.com/openknowledge/workshop-cloudland-2023-cloud-muffel/releases/download/test/on-premises-0.0.1-SNAPSHOT.jar"
+  release_url = "https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar"
 }
 
 data "aws_ami" "app" {
@@ -29,8 +28,8 @@ resource "aws_launch_template" "app" {
     http_tokens = "required"
   }
 
-  user_data =  base64encode(
-  <<-EOF
+  user_data = base64encode(
+    <<-EOF
   #!/bin/bash
 
   echo Update all packages
@@ -45,7 +44,7 @@ resource "aws_launch_template" "app" {
   echo Start app
   java -jar app.jar --server.port=80
   EOF
-)
+  )
 }
 
 resource "aws_autoscaling_group" "app" {
