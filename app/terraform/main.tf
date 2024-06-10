@@ -15,14 +15,13 @@ resource "random_id" "app" {
 }
 
 locals {
-  user_name = split("/", data.aws_caller_identity.me.arn,)[1]
+  user_name = split("/", data.aws_caller_identity.me.arn, )[1]
 
   resource_id = "${local.user_name}-${random_id.app.hex}"
 }
 
 locals {
-  # release_url = "https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar"
-  release_url = "https://github.com/openknowledge/workshop-cloudland-2023-cloud-muffel/releases/download/test/on-premises-0.0.1-SNAPSHOT.jar"
+  release_url = "https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar"
 }
 
 data "aws_ami" "app" {
