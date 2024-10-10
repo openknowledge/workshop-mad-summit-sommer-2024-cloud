@@ -4,7 +4,7 @@ In this exercise we want to set up everything we need for the other exercises. A
 
 Note: Make sure you are on branch `0_on_premises`.
 
-1. In a new termanl go to the `frontend` directory
+1. In a new terminal go to the `frontend` directory
 
     - Run `npm install` and `npm run dev`
     - A message should pop up which tells how to to reach the frontend
@@ -18,8 +18,13 @@ Note: Make sure you are on branch `0_on_premises`.
 
 3. Connect the frontend to backend
 
-    - Adjust the showcase "0 – On-Premises" in `showcases.ts`
-    - Set the base URL to the URL of the backend
-    - Select showcase "0 – On-Premises" and check if the app works properly
+    - Adjust the showcase "0 – On-Premises" in `frontend/src/showcases.ts`
+    - Set the base URL to the URL of the backend 
+      - Reminders:
+        - You will find the URLs in the VSCode Codespaces ports tab
+        - The Backend Service runs on Port 8080
+        - The Backend Port Visibility must be set to public
+    - Open the App in the Browser and select the showcase "0 – On-Premises" in the dropdown
+    - Check if the app works properly
 
 4. Stop the backend by pressing Ctrl+C in the backend terminal
