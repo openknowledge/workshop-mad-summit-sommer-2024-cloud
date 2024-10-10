@@ -1,4 +1,4 @@
-# 1a – Lift & Shift
+# 1b – Lift & Shift
 
 In this exercise we use EC2 to move our backend into the AWS Cloud in a lift & shift manner.
 
@@ -13,31 +13,32 @@ Note: Make sure you are on branch `1b_lift_and_shift`.
 2. Create a launch template
     - Name it after your user account
     - Use the same settings as used in `1a_lift_and_shift`
-    - That is, `t3a.nano`, `EC2` as security group and instance profile
+    - That is, the Amazon Linux 2023 AMI (or newer), `t3a.nano`, `EC2` as security group and instance profile
     - As user data insert the following snippet:
     ```sh
-#!/bin/bash
+    #!/bin/bash
+    
+    echo Update all packages
+    yum -y update
+    
+    echo Install Java 17
+    yum -y install java-17-amazon-corretto-headless
+    
+    echo Download app
+    wget https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar -O app.jar
+    
+    echo Start app
+    java -jar app.jar --server.port=80
+    ```
+   - Leave everything else as is
 
-echo Update all packages
-yum -y update
-
-echo Install Java 17
-yum -y install java-17-amazon-corretto-headless
-
-echo Download app
-wget https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar -O app.jar
-
-echo Start app
-java -jar app.jar --server.port=80
-```    
-    - Leave everything else as is
-
-3. Create a target group
+3. Create a target group (Found under Load Balancing)
     - Name it after your user account
     - As health check use `/id`
 
 4. Create a (application) load balancer
     - Name it after your user account
+    - Choose all availability zones
     - Use `EC2` as security group
     - Listen on port 80 using your target group
 
@@ -46,19 +47,24 @@ java -jar app.jar --server.port=80
     - Use your launch template
     - Select all subnets
     - Attach your load balancer using your target group
-    - Turn on health checks
+    - Turn on Elastic Load Balancing health checks
     - Use 2 as desired capacity
 
-4. Open the public domain of your loadbalancer (can be found in the Instance Summary view)
+6. Open the public domain of your loadbalancer (can be found in the Instance Summary view)
 
     - If everything is fine, the URL `http://$DOMAIN/id` (use HTTP!) should return some data
     - Reload a few time to check if all instances are hit eventually
 
-5. Connect the frontend to the EC2 instance
+[//]: # (Skip this block and continue with step 8. because of codespaces tls limitations)
+[//]: # (7. Connect the frontend to the EC2 instance)
 
-    - Adjust the showcase "1 – Lift & Shift" in showcases.ts
-    - Set the base URL using the domain of your EC2 instance (e.g. `http://$DOMAIN`)
-    - Select showcase "1 – Lift & Shift" and check if the app works properly
-    - NOTE: This might not work due to TLS in GitHub Codespaces
+[//]: # ()
+[//]: # (    - Adjust the showcase "1 – Lift & Shift" in showcases.ts)
 
-6. Feel free to delete all resources you've created (in reverse order)
+[//]: # (    - Set the base URL using the domain of your EC2 instance &#40;e.g. `http://$DOMAIN`&#41;)
+
+[//]: # (    - Select showcase "1 – Lift & Shift" and check if the app works properly)
+
+[//]: # (    - NOTE: This might not work due to TLS in GitHub Codespaces)
+
+8. Feel free to delete all resources you've created (in reverse order)
