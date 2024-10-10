@@ -10,12 +10,12 @@ Note: Make sure you are on branch `2_managed_services`.
     - As default output use the json or yaml (you may also just press enter)
     - If everything worked, you can now use the AWS CLI from your console
 
-2. Create an image registry (known as repository) in AWS using ECR. This allows to actually push our newly build Docker iamge.
+2. Create an image registry (known as repository) in AWS using ECR. This allows to actually push our newly build Docker image.
 
     - Name it after your user and leave everything else as is.
 
 3. Build a new version of the backend
-
+    - Make sure you're in the app folder
     - Run `mvn clean package`
 
 4. Build Docker image and push to our new ECR repository
