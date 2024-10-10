@@ -7,9 +7,9 @@ Note: Make sure you are on branch `3_paas`.
 1. In the AWS management console open the DynamoDB page
 
     - Create a new DynamoDB table with the default configuration
+    - Name it after your user
     - Use a partition key called "pk" with type string
     - Use a sort key called "sk" with type string
-    - Name it after your user
     - Leave everything as is and create the table
 
 2. Build a new version of the backend
@@ -20,6 +20,7 @@ Note: Make sure you are on branch `3_paas`.
 
     - Open the new ECR repository and click on "View push commands"
     - Follow the instructions there (login, build, tag and push)
+    - Go to the App Runner Service and wait for the Redeployment to be finished 
 
 4. Change the configuration of your app runner service
 
