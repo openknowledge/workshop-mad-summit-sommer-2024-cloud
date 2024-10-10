@@ -32,10 +32,15 @@ Note: Make sure you are on branch `1a_lift_and_shift`.
 
     - If everything is fine, the URL `http://$DOMAIN/categories` (use HTTP!) should return some data
 
-5. Connect the frontend to the EC2 instance
+[//]: # (Skip this Block and continue with Step 6.)
+[//]: # (The following Block does not work due to codespaces tls limitations)
+[//]: # (5. Connect the frontend to the EC2 instance)
 
-    - Adjust the showcase "1 – Lift & Shift" in showcases.ts
-    - Set the base URL using the domain of your EC2 instance (e.g. `http://$DOMAIN`)
-    - Select showcase "1 – Lift & Shift" and check if the app works properly
+[//]: # ()
+[//]: # (    - Adjust the showcase "1 – Lift & Shift" in showcases.ts)
+
+[//]: # (    - Set the base URL using the domain of your EC2 instance &#40;e.g. `http://$DOMAIN`&#41;)
+
+[//]: # (    - Select showcase "1 – Lift & Shift" and check if the app works properly)
 
 6. Terminate the EC2 instance
