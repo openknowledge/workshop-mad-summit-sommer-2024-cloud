@@ -5,36 +5,40 @@ provider "aws" {
 locals {
   all_names = [
     "dog",
-    "cat",
-    "elephant",
-    "giraffe",
-    "lion",
-    "tiger",
-    "bear",
-    "wolf",
-    "fox",
-    "rabbit",
-    "deer",
-    "horse",
-    "cow",
-    "sheep",
-    "chicken",
-    "duck",
-    "goose",
-    "eagle",
-    "owl",
-    "penguin",
-    "dolphin",
-    "whale",
-    "kangaroo",
-    "zebra"
+    # "cat",
+    # "elephant",
+    # "giraffe",
+    # "lion",
+    # "tiger",
+    # "bear",
+    # "wolf",
+    # "fox",
+    # "rabbit",
+    # "deer",
+    # "horse",
+    # "cow",
+    # "sheep",
+    # "chicken",
+    # "duck",
+    # "goose",
+    # "eagle",
+    # "owl",
+    # "penguin",
+    # "dolphin",
+    # "whale",
+    # "kangaroo",
+    # "zebra"
   ]
 
   user_count = length(local.all_names)
 
   names = slice(local.all_names, 0, local.user_count)
 
-  expire_user_at = "2024-06-21T13:00:00.000Z"
+  expire_user_at = "2024-10-17T13:00:00.000Z"
+}
+
+resource "aws_default_vpc" "vpc" {
+
 }
 
 resource "aws_iam_user" "users" {
@@ -322,6 +326,8 @@ resource "aws_iam_group_policy" "users3" {
 }
 
 resource "aws_security_group" "app" {
+  depends_on = [aws_default_vpc.vpc]
+
   name = "EC2"
 
   egress {
