@@ -276,6 +276,15 @@ resource "aws_iam_group_policy" "users3" {
       {
         Effect = "Allow"
         Action = [
+          "iam:CreateServiceLinkedRole",
+        ]
+        Resource = [
+          "arn:aws:iam::${data.aws_caller_identity.me.account_id}:role/aws-service-role/elasticloadbalancing.amazonaws.com/AWSServiceRoleForElasticLoadBalancing",
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
           "ec2:AuthorizeSecurityGroupEgress",
           "ec2:DescribeInstances",
           "ec2:RevokeSecurityGroupEgress",
