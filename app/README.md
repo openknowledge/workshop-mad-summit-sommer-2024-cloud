@@ -25,22 +25,18 @@ Note: Make sure you are on branch `1a_lift_and_shift`.
     - You should see a console where you are logged in as user ec2-user
     - Install Java 17 using `sudo yum install java-17-amazon-corretto-headless`
     - Change to home directory using `cd ~`
-    - Download our app artifact using `wget https://github.com/openknowledge/workshop-mad-summit-sommer-2024-cloud/releases/download/v2/v2.jar`
+    - Download our app artifact using `wget https://github.com/openknowledge/workshop-cloud/releases/download/v2/v2.jar`
     - Start it using `sudo java -jar v2.jar --server.port=80`
 
 4. Open the public domain of your instance (can be found in the Instance Summary view)
 
     - If everything is fine, the URL `http://$DOMAIN/categories` (use HTTP!) should return some data
 
-[//]: # (Skip this Block and continue with Step 6.)
-[//]: # (The following Block does not work due to codespaces tls limitations)
-[//]: # (5. Connect the frontend to the EC2 instance)
+5. Connect the frontend to the EC2 instance
 
-[//]: # ()
-[//]: # (    - Adjust the showcase "1 – Lift & Shift" in showcases.ts)
-
-[//]: # (    - Set the base URL using the domain of your EC2 instance &#40;e.g. `http://$DOMAIN`&#41;)
-
-[//]: # (    - Select showcase "1 – Lift & Shift" and check if the app works properly)
+    - NOTE: This might not work due to TLS in GitHub Codespaces
+    - Adjust the showcase "1 – Lift & Shift" in showcases.ts'
+    - Set the base URL using the domain of your EC2 instance (e.g. `http://$DOMAIN`)
+    - Select showcase "1 – Lift & Shift" and check if the app works properly'
 
 6. Terminate the EC2 instance
