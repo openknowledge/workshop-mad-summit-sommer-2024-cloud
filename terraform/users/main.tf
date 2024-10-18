@@ -280,6 +280,8 @@ resource "aws_iam_group_policy" "users3" {
         ]
         Resource = [
           "arn:aws:iam::${data.aws_caller_identity.me.account_id}:role/aws-service-role/elasticloadbalancing.amazonaws.com/AWSServiceRoleForElasticLoadBalancing",
+          "arn:aws:iam::${data.aws_caller_identity.me.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
+          "arn:aws:iam::${data.aws_caller_identity.me.account_id}:role/aws-service-role/apprunner.amazonaws.com/AWSServiceRoleForAppRunner"
         ]
       },
       {
