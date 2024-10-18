@@ -3,7 +3,7 @@ const input = require("fs").readFileSync(0, "utf-8");
 const users = JSON.parse(input);
 
 for (const user of users) {
-  console.log("<b>Cloud-Workshop: DER WEG IN DIE CLOUD</b><br/>");
+  console.log("<b>Cloud-Workshop</b><br/>");
 
   console.log("von Open Knowledge <u>https://www.openknowledge.de/</u><br/>");
 
@@ -12,7 +12,7 @@ for (const user of users) {
 
   console.log("<br/>");
   console.log("Account-ID: " + user.account_id + "<br/>");
-  console.log("Region: " + user.name.split("-").slice(1).join("-") + "<br/>");
+  console.log("Region: " + "eu-central-1" + "<br/>");
   console.log("<br/>");
 
   console.log(
