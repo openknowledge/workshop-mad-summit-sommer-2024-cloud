@@ -14,16 +14,16 @@ Note: Make sure you are on branch `0_on_premises`.
 
     - Run `mvn spring-boot:run` to start the backend
     - A message should pop up which tells us how to reach the backend
-    - Make the backend port public (this can be done in the port tab via right click menu)    
+    - Make the backend port public (this can be done in the port tab via right click menu)
 
 3. Connect the frontend to backend
 
     - Adjust the showcase "0 – On-Premises" in `frontend/src/showcases.ts`
-    - Set the base URL to the URL of the backend 
-      - Reminders:
-        - You will find the URLs in the VSCode Codespaces ports tab
-        - The Backend Service runs on Port 8080
-        - The Backend Port Visibility must be set to public
+    - Set the base URL to the URL of the backend
+        - Reminders:
+            - You will find the URLs in the VSCode Codespaces ports tab
+            - The Backend Service runs on Port 8080
+            - The Backend Port Visibility must be set to public
     - Open the App in the Browser and select the showcase "0 – On-Premises" in the dropdown
     - Check if the app works properly
 
