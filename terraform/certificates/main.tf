@@ -1,9 +1,9 @@
 locals {
-    workshop_account_id = "339712796392"
+  workshop_account_id = "183631313059"
 }
 
 variable "region" {
-  default = "eu-central-1"  
+  default = "eu-central-1"
 }
 
 variable "workshop_account_id" {
