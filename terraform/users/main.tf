@@ -5,7 +5,7 @@ provider "aws" {
 locals {
   all_names = [
     "dog",
-    # "cat",
+    "cat",
     # "elephant",
     # "giraffe",
     # "lion",
