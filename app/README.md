@@ -17,21 +17,21 @@ Note: Make sure you are on branch `1b_lift_and_shift`.
     - That is, the Amazon Linux 2023 AMI (or newer), `t3a.nano`, `EC2` as security group and instance profile
     - As user data insert the following snippet:
 
-    ```sh
-    #!/bin/bash
+```sh
+#!/bin/bash
 
-    echo Update all packages
-    yum -y update
+echo Update all packages
+yum -y update
 
-    echo Install Java 17
-    yum -y install java-17-amazon-corretto-headless
+echo Install Java 17
+yum -y install java-17-amazon-corretto-headless
 
-    echo Download app
-    wget https://github.com/openknowledge/workshop-cloud/releases/download/v2/v2.jar -O app.jar
+echo Download app
+wget https://github.com/openknowledge/workshop-cloud/releases/download/v2/v2.jar -O app.jar
 
-    echo Start app
-    java -jar app.jar --server.port=80
-    ```
+echo Start app
+java -jar app.jar --server.port=80
+```
 
     - Leave everything else as is
 
