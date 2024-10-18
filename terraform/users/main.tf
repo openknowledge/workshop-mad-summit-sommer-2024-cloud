@@ -34,7 +34,7 @@ locals {
 
   names = slice(local.all_names, 0, local.user_count)
 
-  expire_user_at = "2024-10-17T13:00:00.000Z"
+  expire_user_at = "2024-10-22T16:00:00.000Z"
 }
 
 resource "aws_default_vpc" "vpc" {
